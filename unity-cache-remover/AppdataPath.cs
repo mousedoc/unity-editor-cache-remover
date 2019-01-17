@@ -15,9 +15,10 @@ namespace unity_cache_remover
 
         public static string LocalLow
         {
-            // 일부러 추가 안함
-            // 추가 방법 ; https://stackoverflow.com/questions/4494290/detect-the-location-of-appdata-locallow
-            get { return null; }
+            get
+            {
+                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "AppData", "LocalLow");
+            }
         }
 
         public static string Roaming
