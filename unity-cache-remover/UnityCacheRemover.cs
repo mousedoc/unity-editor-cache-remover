@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using Utillity;
 
@@ -21,9 +22,22 @@ namespace unity_cache_remover
             Path.Combine(AppDataPath.Local, UnityFolderName, "cache", "packages"),
         };
 
+        private bool IsRunningUnity
+        {
+            get
+            {
+                Process[] unityProcess = Process.GetProcessesByName("unity");
+                return unityProcess != null && unityProcess.Length > 0;
+            }
+        }
+
         public void Run()
         {
-            Console.ForegroundColor = ConsoleColor.Green;
+            if (IsRunningUnity)
+            {
+                Logger.Error("Unity is running. Please exit Unity");
+                return;
+            }
 
             foreach (var path in AppDataPaths)
             {
@@ -35,12 +49,26 @@ namespace unity_cache_remover
             }
         }
 
+        private bool IsIgnorePath(string fullPath)
+        {
+            foreach (var ignorePath in IgnorePaths)
+            {
+                if (fullPath.Contains(ignorePath) || ignorePath.Contains(fullPath))
+                    return true;
+            }
+
+            return false;
+        }
+
         private void DeleteFiles(string path)
         {
             var targetDirectory = new DirectoryInfo(path);
 
             foreach (var file in targetDirectory.GetFiles())
             {
+                if (IsIgnorePath(file.FullName))
+                    continue;
+
                 try
                 {
                     Logger.Log("Delete file - " + file.FullName);
@@ -54,6 +82,9 @@ namespace unity_cache_remover
 
             foreach (var directory in targetDirectory.GetDirectories())
             {
+                if (IsIgnorePath(directory.FullName))
+                    continue;
+
                 try
                 {
                     Logger.Log("Delete direcotry - " + directory.FullName);
