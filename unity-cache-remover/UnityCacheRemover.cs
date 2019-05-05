@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Utilltiy;
+using Utillity;
 
 namespace unity_cache_remover
 {
