@@ -3,7 +3,7 @@ using System.IO;
 
 namespace unity_cache_remover
 {
-    static class AppdataPath
+    static class AppDataPath
     {
         public static string Local
         {
