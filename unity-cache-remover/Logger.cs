@@ -7,7 +7,7 @@ namespace Utillity
         public static void Log(string format, params object[] args)
         {
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.Green;
+            Console.ForegroundColor = ConsoleColor.White;
 
             Console.WriteLine(format, args);
 
@@ -27,7 +27,7 @@ namespace Utillity
         public static void Error(string format, params object[] args)
         {
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.Re;
+            Console.ForegroundColor = ConsoleColor.Red;
 
             Console.WriteLine(format, args);
 

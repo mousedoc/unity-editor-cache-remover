@@ -1,26 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Utillity;
+using Utilltiy;
 
 namespace unity_cache_remover
 {
     internal class UnityCacheRemover
     {
-        public readonly string UnityFolderName = "Unity";
+        public static readonly string UnityFolderName = "Unity";
 
-        private readonly IEnumerable<string> pathsToRemove = new List<string>()
+        private readonly List<string> AppDataPaths = new List<string>()
         {
             AppDataPath.Local,
             AppDataPath.LocalLow,
             AppDataPath.Roaming,
         };
 
+        private readonly List<string> IgnorePaths = new List<string>()
+        {
+            Path.Combine(AppDataPath.Local, UnityFolderName, "cache", "packages"),
+        };
+
         public void Run()
         {
             Console.ForegroundColor = ConsoleColor.Green;
 
-            foreach (var path in pathsToRemove)
+            foreach (var path in AppDataPaths)
             {
                 if (string.IsNullOrEmpty(path))
                     continue;
@@ -43,7 +48,7 @@ namespace unity_cache_remover
                 }
                 catch (Exception exception)
                 {
-                    Logger.Log("Error to delete file : {0}\r\n{1}", file.FullName, exception);
+                    Logger.Error("Error to delete file : {0}\r\n{1}", file.FullName, exception);
                 }
             }
 
@@ -56,7 +61,7 @@ namespace unity_cache_remover
                 }
                 catch (Exception exception)
                 {
-                    Logger.Log("Error to delete direcotry : {0}\r\n{1}", directory.FullName, exception);
+                    Logger.Error("Error to delete direcotry : {0}\r\n{1}", directory.FullName, exception);
                 }
             }
         }
