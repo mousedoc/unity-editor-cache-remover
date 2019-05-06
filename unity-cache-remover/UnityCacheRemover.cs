@@ -19,7 +19,11 @@ namespace unity_cache_remover
 
         private readonly List<string> IgnorePaths = new List<string>()
         {
+            // Local / Unity / cache / packages
             Path.Combine(AppDataPath.Local, UnityFolderName, "cache", "packages"),
+
+            // Local / Unity / cache / npm
+            Path.Combine(AppDataPath.Local, UnityFolderName, "cache", "npm"),
         };
 
         private bool IsRunningUnity
